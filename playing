@@ -22,17 +22,12 @@ status = subprocess.check_output(
 ).strip()
 
 if status == 'playing':
-  # Grab the artist name.
-  artist = subprocess.check_output(
+  # Grab the artist and track name.
+  track, artist = subprocess.check_output(
     ["osascript", "-e",
-     'tell application "%s" to artist of current track as string' % app_name]
-    ).strip()
+     'tell application "%s" to get name of current track &"#"& artist of current track'' % app_name]
+    ).strip().split('#')
 
-  # Grab the current track.
-  track = subprocess.check_output(
-    ["osascript", "-e"
-     'tell application "%s" to name of current track as string' % app_name]
-    ).strip()
 
   # Output:
   if len(sys.argv) == 2 and sys.argv[1] == "-nocolor":
